@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import './App.scss';
 import bgMusic from './assets/Toy Story - You\'ve Got a Friend in Me (Instrumental) [ustrOyrmLOA].mp3';
 
 function App() {
+  const { t } = useTranslation();
   const [scrollProgress, setScrollProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -92,33 +94,34 @@ function App() {
           </div>
           
           <div className="card">
-            <h1>You're Invited!</h1>
-            <div className="stars">✨ ⭐ ✨</div>
-            <h2>Mason is turning 2!</h2>
+            <h1>{t('invited')}</h1>
+            <div className="stars">{t('stars')}</div>
+            <h2>{t('subtitle')}</h2>
             
             <p className="message">
-              Come join us for a day filled with fun,<br/>
-              cake, and lots of adventure!
+              {t('message').split('\n').map((line, i, arr) => (
+                <span key={i}>{line}{i < arr.length - 1 && <br/>}</span>
+              ))}
             </p>
             
             <div className="details">
               <div className="detail-item">
                 <span className="icon">📅</span>
-                <p>Thursday, April 23rd</p>
+                <p>{t('date_label')}</p>
               </div>
               <div className="detail-item">
                 <span className="icon">⏰</span>
-                <p>2:00 PM - 5:00 PM</p>
+                <p>{t('time_label')}</p>
               </div>
               <div className="detail-item">
                 <span className="icon">📍</span>
-                <p>Mason's House<br/>123 Party Lane</p>
+                <p>{t('location_name')}<br/>{t('location_address')}</p>
               </div>
             </div>
             
             <div className="actions">
-              <button className="rsvp-btn" onClick={() => alert('Yay! RSVP Confirmed!')}>RSVP here!</button>
-              <a href="https://meet.google.com/your-meet-link" target="_blank" rel="noopener noreferrer" className="meet-btn">Join via Google Meet</a>
+              <button className="rsvp-btn" onClick={() => alert(t('rsvp_confirmed'))}>{t('rsvp')}</button>
+              <a href="https://meet.google.com/your-meet-link" target="_blank" rel="noopener noreferrer" className="meet-btn">{t('meet')}</a>
             </div>
           </div>
         </div>
@@ -136,7 +139,7 @@ function App() {
             className="scroll-indicator" 
             style={{ opacity: 1 - scrollProgress * 5 }}
           >
-            <p>Scroll down to open!</p>
+            <p>{t('scroll_hint')}</p>
             <div className="arrow">↓</div>
           </div>
           
