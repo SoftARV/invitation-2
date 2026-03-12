@@ -104,7 +104,7 @@ function App() {
             <div className="details">
               <div className="detail-item">
                 <span className="icon">📅</span>
-                <p>Saturday, August 12th</p>
+                <p>Thursday, April 23rd</p>
               </div>
               <div className="detail-item">
                 <span className="icon">⏰</span>
