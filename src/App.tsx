@@ -65,6 +65,54 @@ function App() {
     });
   };
 
+  // Convert 2 PM - 5 PM EST (April 23, 2026) to Local Time
+  // ET is UTC-4 in April (EDT)
+  const startTime = new Date('2026-04-23T14:00:00-04:00');
+  const endTime = new Date('2026-04-23T17:00:00-04:00');
+
+  const formatOptions: Intl.DateTimeFormatOptions = { 
+    hour: 'numeric', 
+    minute: '2-digit', 
+    hour12: true 
+  };
+  
+  const localStart = startTime.toLocaleTimeString([], formatOptions);
+  const localEnd = endTime.toLocaleTimeString([], formatOptions);
+  
+  // Check if it's actually different from the hardcoded EST time for clarity
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const isEST = browserTimezone === 'America/New_York' || browserTimezone === 'EST5EDT';
+  const timeDisplay = `${localStart} - ${localEnd}`;
+
+  // Interactive Balloon State
+  const [activeAnims, setActiveAnims] = useState<Record<number, string>>({});
+  
+  const balloons = [
+    { id: 1, color: 'red', pos: 'left-top' },
+    { id: 2, color: 'blue', pos: 'right-top' },
+    { id: 3, color: 'yellow', pos: 'left-bottom' },
+    { id: 4, color: 'purple', pos: 'center-left' },
+    { id: 5, color: 'orange', pos: 'center-right' },
+    { id: 6, color: 'green', pos: 'top-center' },
+    { id: 7, color: 'red', pos: 'right-bottom' },
+  ];
+
+  const handleBalloonTap = (id: number) => {
+    const animations = ['wiggle', 'pop', 'spin', 'bounce-click'];
+    const randomAnim = animations[Math.floor(Math.random() * animations.length)];
+    
+    setActiveAnims(prev => ({ ...prev, [id]: randomAnim }));
+    
+    // Remove class after animation duration (800ms)
+    setTimeout(() => {
+      setActiveAnims(prev => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+    }, 800);
+  };
+
   return (
     <div className="birthday-app">
       {/* 
@@ -87,12 +135,6 @@ function App() {
             transform: `scale(${0.9 + (scrollProgress * 0.1)})`
           }}
         >
-          <div className="decorations">
-            <div className="balloon red"></div>
-            <div className="balloon blue"></div>
-            <div className="balloon yellow"></div>
-          </div>
-          
           <div className="card">
             <h1>{t('invited')}</h1>
             <div className="stars">{t('stars')}</div>
@@ -111,7 +153,7 @@ function App() {
               </div>
               <div className="detail-item">
                 <span className="icon">⏰</span>
-                <p>{t('time_label')}</p>
+                <p>{timeDisplay} <small>({isEST ? 'EST' : t('local_time_suffix')})</small></p>
               </div>
               <div className="detail-item">
                 <span className="icon">📍</span>
@@ -124,6 +166,22 @@ function App() {
               <a href="https://meet.google.com/your-meet-link" target="_blank" rel="noopener noreferrer" className="meet-btn">{t('meet')}</a>
             </div>
           </div>
+        </div>
+
+        <div 
+          className="decorations"
+          style={{ 
+            opacity: doorOpenProgress,
+            transform: `scale(${0.9 + (scrollProgress * 0.1)})`
+          }}
+        >
+          {balloons.map(b => (
+            <div 
+              key={b.id} 
+              className={`balloon ${b.color} ${b.pos} ${activeAnims[b.id] || ''}`}
+              onClick={() => handleBalloonTap(b.id)}
+            />
+          ))}
         </div>
 
         {/* The 3D Room and Door */}

@@ -11,5 +11,6 @@
   "location_address": "123 Party Lane",
   "rsvp": "¡Confirmar asistencia!",
   "meet": "Unirse por Google Meet",
-  "rsvp_confirmed": "¡Genial! ¡Asistencia confirmada!"
+  "rsvp_confirmed": "¡Genial! ¡Asistencia confirmada!",
+  "local_time_suffix": "Hora Local"
 }
