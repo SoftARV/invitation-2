@@ -185,6 +185,8 @@
   opacity: 0.75; /* Add transparency */
   pointer-events: auto; /* Enable clicks */
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+  outline: none; /* Remove focus outline */
   
   &::after {
     content: '';
