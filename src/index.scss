@@ -1,6 +1,14 @@
+@font-face {
+  font-family: 'BioRhyme';
+  src: url('./assets/fonts/BioRhyme/BioRhyme-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --font-body: 'Baloo 2', cursive;
-  --font-heading: 'Fredoka', sans-serif;
+  --font-body: 'BioRhyme', serif;
+  --font-heading: 'BioRhyme', serif;
   
   --bg-primary: #fffbeb;
   --bg-secondary: #fef3c7;

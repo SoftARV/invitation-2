@@ -1,433 +1,534 @@
 .birthday-app {
-  /* We use this to allow scrolling for the animation */
-  position: relative;
-  min-height: 100vh;
+    /* We use this to allow scrolling for the animation */
+    position: relative;
+    min-height: 100vh;
 }
 
 .scroll-track {
-  /* Height of the scroll area (how long user needs to scroll to finish animation) */
-  height: 300vh;
-  width: 100%;
+    /* Height of the scroll area (how long user needs to scroll to finish animation) */
+    height: 300vh;
+    width: 100%;
 }
 
 .fixed-container {
-  /* Container for the visual parts to stay fixed while user scrolls */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    /* Container for the visual parts to stay fixed while user scrolls */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 
+/*
 =============================
   INVITATION CONTENT
 =============================
 */
 .invitation-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1; /* Behind the door */
-  padding: 2rem;
-  background: radial-gradient(circle, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-  overflow-y: auto; /* Allow scrolling if content is tall */
-  
-  /* Initial state is scaled down slightly and invisible, 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1; /* Behind the door */
+    padding: 2rem;
+    overflow-y: auto; /* Allow scrolling if content is tall */
+
+    /* Initial state is scaled down slightly and invisible,
      animated via inline styles in React based on scroll progress */
-  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+    transition:
+        opacity 0.1s ease-out,
+        transform 0.1s ease-out;
+}
+
+/* Cloud wall — fills the invitation room background */
+.room-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Wooden floor — sits at the bottom of the invitation room */
+.room-floor {
+    /* ── Adjust these to reposition the floor ── */
+    --floor-offset-y: 200px; /* positive → slide down (hide more), negative → slide up */
+    --floor-width: 120%; /* go above 100% to scale it up and fill any side gaps */
+    /* ────────────────────────────────────────── */
+
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    width: var(--floor-width);
+    height: auto;
+    transform: translateX(-50%) translateY(var(--floor-offset-y));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .card {
-  background: white;
-  padding: 3rem 4rem;
-  border-radius: 2rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  max-width: 600px;
-  width: 100%;
-  position: relative;
-  border: 4px dashed #fde68a;
-  
-  h1 {
-    font-size: 3rem;
-    color: var(--color-blue);
-    margin-bottom: 0.2em;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  
-  h2 {
-    font-size: 2.5rem;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-  }
-  
-  .stars {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    letter-spacing: 10px;
-  }
-  
-  .message {
-    font-size: 1.3rem;
-    margin-bottom: 2.5rem;
-    color: var(--text-secondary);
-  }
-  
-  .details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 3rem;
-    
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      
-      .icon {
-        font-size: 2rem;
-        background: var(--bg-primary);
-        width: 60px;
-        height: 60px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    padding: 3rem 4rem;
+    color: #8a532a;
+    font-weight: bold;
+
+    .card-title {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .message {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        color: inherit;
+    }
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+
+        .location {
+            text-align: center;
+
+            .location-name {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: inherit;
+                margin-bottom: 0.3rem;
+            }
+
+            .location-pin {
+                margin-right: 0.3rem;
+            }
+
+            .location-address {
+                font-size: 1rem;
+                color: inherit;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    /* ── Date banner ── */
+    .date-banner {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      }
-      
-      p {
-        font-family: var(--font-heading);
-        font-size: 1.1rem;
-        color: var(--text-primary);
-      }
+        gap: 8rem;
+        width: fit-content;
+        background: #f1e5ce;
+        padding: 0.6rem 1.5rem;
+        position: relative;
+        overflow: visible;
     }
-  }
+
+    .date-star-wrap {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2.8rem;
+    }
+
+    .date-star-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .date-star-text {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .date-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1;
+        color: inherit;
+    }
+
+    .date-month {
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: inherit;
+    }
+
+    .date-day,
+    .date-time {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: inherit;
+        white-space: nowrap;
+    }
 }
 
 .actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .rsvp-btn {
-  background: var(--color-red);
-  color: white;
-  padding: 1rem 3rem;
-  font-size: 1.4rem;
-  border-radius: 99px;
-  box-shadow: 0 6px 0 #be123c, 0 10px 20px rgba(244, 63, 94, 0.3);
-  transition: all 0.1s ease;
-  
-  &:active {
-    transform: translateY(6px);
-    box-shadow: 0 0px 0 #be123c, 0 5px 10px rgba(244, 63, 94, 0.3);
-  }
-  
-  &:hover {
-    background: #f43f5e;
-  }
+    background: var(--color-red);
+    color: white;
+    padding: 1rem 3rem;
+    font-size: 1.4rem;
+    border-radius: 99px;
+    box-shadow:
+        0 6px 0 #be123c,
+        0 10px 20px rgba(244, 63, 94, 0.3);
+    transition: all 0.1s ease;
+
+    &:active {
+        transform: translateY(6px);
+        box-shadow:
+            0 0px 0 #be123c,
+            0 5px 10px rgba(244, 63, 94, 0.3);
+    }
+
+    &:hover {
+        background: #f43f5e;
+    }
 }
 
 .meet-btn {
-  background: white;
-  color: var(--color-blue);
-  border: 2px solid var(--color-blue);
-  padding: 0.8rem 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border-radius: 99px;
-  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
-  transition: all 0.1s ease;
-  font-family: var(--font-heading);
-  display: inline-block;
-  
-  &:active { transform: translateY(4px); }
-  &:hover { background: #f0f9ff; }
+    background: white;
+    color: var(--color-blue);
+    border: 2px solid var(--color-blue);
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 99px;
+    box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+    transition: all 0.1s ease;
+    font-family: var(--font-heading);
+    display: inline-block;
+
+    &:active {
+        transform: translateY(4px);
+    }
+    &:hover {
+        background: #f0f9ff;
+    }
 }
 
-/* Balloons Decoration */
-.decorations {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 20; /* Higher than room-scene (10) to allow interactions */
-}
+/*
+=============================
+  TOY STORY CHARACTERS
+=============================
+*/
 
-.balloon {
-  position: absolute;
-  width: 80px;
-  height: 100px;
-  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-  box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
-  animation: float 4s ease-in-out infinite alternate;
-  opacity: 0.75; /* Add transparency */
-  pointer-events: auto; /* Enable clicks */
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
-  outline: none; /* Remove focus outline */
-  
-  &::after {
-    content: '';
+.characters-layer {
     position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 60px;
-    background: rgba(0,0,0,0.2);
-    z-index: -1;
-  }
-  
-  &.red { background: var(--color-red); }
-  &.blue { background: var(--color-blue); }
-  &.yellow { background: var(--color-yellow); width: 60px; height: 75px; }
-  &.purple { background: #a855f7; width: 70px; height: 90px; }
-  &.orange { background: #fb923c; width: 85px; height: 105px; }
-  &.green { background: var(--color-green); width: 65px; height: 80px; }
-
-  /* Positions */
-  &.left-top { top: 10%; left: 15%; animation-delay: 0s; }
-  &.right-top { top: 5%; right: 20%; animation-delay: 1s; }
-  &.left-bottom { bottom: 28%; left: 8%; animation-delay: 0.5s; }
-  &.right-bottom { bottom: 25%; right: 12%; animation-delay: 1.5s; }
-  &.center-left { top: 40%; left: 5%; animation-delay: 0.2s; }
-  &.center-right { top: 50%; right: 10%; animation-delay: 0.7s; }
-  &.top-center { top: 5%; left: 45%; animation-delay: 1.2s; }
-
-  /* Interactive Animations */
-  &.wiggle { animation: wiggle 0.4s ease-in-out; }
-  &.pop { animation: pop 0.4s ease-out; }
-  &.spin { animation: spin 0.6s ease-in-out; }
-  &.bounce-click { animation: bounce-click 0.5s ease-in-out; }
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 15; /* Above door (10) so characters frame the invitation */
+    overflow: hidden;
 }
 
-@keyframes float {
-  0% { transform: translateY(0px) rotate(-5deg); }
-  100% { transform: translateY(-20px) rotate(5deg); }
+.char-wrapper {
+    position: absolute;
 }
 
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-15deg) scale(1.1); }
-  75% { transform: rotate(15deg) scale(1.1); }
+.character {
+    display: block;
+    width: 100%;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+    animation: char-idle 2.8s ease-in-out infinite alternate;
+    will-change: transform;
 }
 
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
+@keyframes char-idle {
+    from {
+        transform: translateY(0px);
+    }
+    to {
+        transform: translateY(-12px);
+    }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg) scale(1.2); }
-}
-
-@keyframes bounce-click {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-40px) scaleX(0.8); }
-}
-
-
-/* 
+/*
 =============================
   3D DOOR ENVIRONMENT
 =============================
 */
 
 .room-scene {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  perspective: 1500px; /* Crucial for 3D effect */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  pointer-events: none; /* Let clicks pass through when door is open */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    perspective: 1500px; /* Crucial for 3D effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none; /* Let clicks pass through when door is open */
 }
 
 .scroll-indicator {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: white;
-  font-family: var(--font-heading);
-  text-shadow: 0 4px 10px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.8);
-  z-index: 20;
-  pointer-events: none; /* Let clicks pass through to the door */
-  
-  p { font-size: 1.5rem; color: white; margin-bottom: 0.5rem; font-weight: 600; }
-  .arrow { 
-    font-size: 2.2rem; 
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
     color: white;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.6);
-    animation: bounce 2s infinite; 
-  }
+    font-family: var(--font-heading);
+    text-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.6),
+        0 1px 3px rgba(0, 0, 0, 0.8);
+    z-index: 20;
+    pointer-events: none; /* Let clicks pass through to the door */
+
+    p {
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    .arrow {
+        font-size: 2.2rem;
+        color: white;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        animation: bounce 2s infinite;
+    }
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-10px); }
-  60% { transform: translateY(-5px); }
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
 }
 
 /* The Frame around the door */
 .door-frame {
-  /* Real door proportions: ~1:2.4 ratio (width:height) */
-  height: clamp(420px, 72vh, 680px);
-  aspect-ratio: 1 / 2.4;
-  border: 16px solid white;
-  border-bottom: none; /* Ground */
-  background: transparent;
-  box-shadow: 
-    0 0 0 100vmax #a7f3d0, /* Infinite outer wall */
-    inset 0 10px 20px rgba(0,0,0,0.5); /* Inner shadow */
-  position: relative;
-  pointer-events: auto; /* Override parent's pointer-events: none so door is clickable */
-  cursor: pointer;
-  
-  /* Create the illusion that we are looking through a wall */
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -100vw;
-    width: 200vw;
-    height: 16px;
-    background: white;
-  }
+    /* Real door proportions: ~1:2.4 ratio (width:height) */
+    height: clamp(420px, 72vh, 680px);
+    aspect-ratio: 1 / 2.4;
+    border: 16px solid white;
+    border-bottom: none; /* Ground */
+    background: transparent;
+    box-shadow:
+        0 0 0 100vmax #a7f3d0,
+        /* Infinite outer wall */ inset 0 10px 20px rgba(0, 0, 0, 0.5); /* Inner shadow */
+    position: relative;
+    pointer-events: auto; /* Override parent's pointer-events: none so door is clickable */
+    cursor: pointer;
+
+    /* Create the illusion that we are looking through a wall */
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: -100vw;
+        width: 200vw;
+        height: 16px;
+        background: white;
+    }
 }
 
 /* The Door itself */
 .door {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--door-color);
-  transform-origin: left center; /* Swings from the left hinges */
-  transform-style: preserve-3d;
-  box-shadow: inset -5px 0 15px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.05);
-  pointer-events: auto; /* Override parent's pointer-events: none */
-  
-  /* Details on the door surface */
-  display: flex;
-  flex-direction: column;
-  padding: 10%;
-  gap: 10%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--door-color);
+    transform-origin: left center; /* Swings from the left hinges */
+    transform-style: preserve-3d;
+    box-shadow:
+        inset -5px 0 15px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+    pointer-events: auto; /* Override parent's pointer-events: none */
+
+    /* Details on the door surface */
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+    gap: 10%;
 }
 
 .door-panel {
-  flex: 1;
-  border: 4px solid rgba(0,0,0,0.08);
-  border-radius: 4px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(0,0,0,0.02) 100%);
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), inset -2px -2px 5px rgba(255,255,255,1);
+    flex: 1;
+    border: 4px solid rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(0, 0, 0, 0.02) 100%
+    );
+    box-shadow:
+        inset 2px 2px 5px rgba(0, 0, 0, 0.05),
+        inset -2px -2px 5px rgba(255, 255, 255, 1);
 }
 
 .door-handle {
-  position: absolute;
-  top: 50%;
-  right: 5%;
-  width: 20px;
-  height: 80px;
-  background: #fbbf24; /* Golden handle */
-  border-radius: 10px;
-  box-shadow: 
-    inset 2px 2px 4px rgba(255,255,255,0.6),
-    inset -2px -2px 4px rgba(0,0,0,0.2),
-    4px 4px 8px rgba(0,0,0,0.2);
-  transform: translateY(-50%);
-  
-  &::after {
-    content: '';
     position: absolute;
     top: 50%;
-    right: -10px;
+    right: 5%;
     width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #d97706; /* Darker gold base */
+    height: 80px;
+    background: #fbbf24; /* Golden handle */
+    border-radius: 10px;
+    box-shadow:
+        inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.2),
+        4px 4px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-50%);
-    box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3);
-  }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #d97706; /* Darker gold base */
+        transform: translateY(-50%);
+        box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+    }
 }
 
 /* Responsive adjustments */
+@media (max-width: 700px) {
+    .room-floor {
+        --floor-offset-y: 0px;
+    }
+}
+
 @media (max-width: 600px) {
-  .door-frame { height: clamp(360px, 65vh, 500px); }
-  .invitation-content { 
-    padding: 1rem 0.5rem 4rem 0.5rem; /* Increased vertical padding */
-    justify-content: flex-start; /* Start from top to allow scrolling */
-  }
-  .card { 
-    padding: 1.5rem 1rem;
-    width: calc(100% - 1rem);
-    max-width: none;
-    
-    h1 { font-size: 2rem; margin-bottom: 0.1em; }
-    h2 { font-size: 1.6rem; margin-bottom: 1rem; }
-    .stars { display: none; } /* Save space on mobile */
-    .message { font-size: 1.1rem; margin-bottom: 1rem; line-height: 1.3; }
-    
-    .details { 
-      gap: 0.8rem; 
-      margin-bottom: 2rem;
-      flex-direction: column; 
+    .door-frame {
+        height: clamp(360px, 65vh, 500px);
     }
-    
-    .detail-item { 
-      flex-direction: row; 
-      justify-content: flex-start;
-      gap: 1rem;
-      text-align: left;
-      
-      .icon { width: 45px; height: 45px; font-size: 1.3rem; flex-shrink: 0; }
-      p { font-size: 1rem; }
+    .invitation-content {
+        padding: 1rem 0.5rem;
     }
-  }
-  
-  .actions {
-    flex-direction: column;
-    gap: 1.2rem;
-    width: 100%;
-    
-    .rsvp-btn, .meet-btn {
-      width: 100%;
-      font-size: 1.2rem;
-      padding: 1rem 1.5rem;
+    .card {
+        padding: 1.5rem 1rem;
+        width: calc(100% - 0.1rem);
+        max-width: none;
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.1em;
+        }
+        h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        .stars {
+            display: none;
+        } /* Save space on mobile */
+        .message {
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.3;
+        }
+
+        .details {
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-direction: column;
+        }
+
+        .detail-item {
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 1rem;
+            text-align: left;
+
+            .icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                flex-shrink: 0;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
     }
-  }
-  
-  .scroll-indicator {
-    bottom: 30px;
-    p { font-size: 1.2rem; }
-    .arrow { font-size: 1.8rem; }
-  }
+
+    .actions {
+        flex-direction: column;
+        gap: 1.2rem;
+        width: 100%;
+
+        .rsvp-btn,
+        .meet-btn {
+            /* width: 100%; */
+            font-size: 1.2rem;
+            padding: 1rem 1.5rem;
+        }
+    }
+
+    .scroll-indicator {
+        bottom: 30px;
+        p {
+            font-size: 1.2rem;
+        }
+        .arrow {
+            font-size: 1.8rem;
+        }
+    }
 }

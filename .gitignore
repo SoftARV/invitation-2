@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# macOS metadata files
+._*
+.DS_Store
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
