@@ -467,7 +467,11 @@
         padding: 1.5rem 1rem;
         width: calc(100% - 0.1rem);
         max-width: none;
-
+        .card-title {
+            width: 90%;
+            margin: 0 auto;
+            margin-top: 1rem;
+        }
         h1 {
             font-size: 2rem;
             margin-bottom: 0.1em;
@@ -487,8 +491,19 @@
 
         .details {
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             flex-direction: column;
+            .date-banner {
+                padding: 0.6rem;
+                gap: 7.5rem;
+            }
+
+            .location-name {
+                font-size: 0.95rem;
+            }
+            .location-address {
+                font-size: 0.85rem;
+            }
         }
 
         .detail-item {
@@ -510,15 +525,19 @@
     }
 
     .actions {
-        flex-direction: column;
-        gap: 1.2rem;
-        width: 100%;
+        gap: 0.6rem;
 
-        .rsvp-btn,
+        .rsvp-btn {
+            font-size: 1rem;
+            padding: 0.6rem 1.6rem;
+            box-shadow:
+                0 4px 0 #be123c,
+                0 6px 12px rgba(244, 63, 94, 0.3);
+        }
+
         .meet-btn {
-            /* width: 100%; */
-            font-size: 1.2rem;
-            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
+            padding: 0.5rem 1.2rem;
         }
     }
 
