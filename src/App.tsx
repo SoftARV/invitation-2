@@ -363,7 +363,11 @@ function App() {
             <div className="arrow">↓</div>
           </div>
 
-          <div className="door-frame" onClick={handleDoorClick}>
+          <div
+            className="door-frame"
+            onClick={handleDoorClick}
+            style={{ pointerEvents: zoomProgress > 0 ? "none" : "auto" }}
+          >
             {/* The single white door */}
             <div
               className="door"
