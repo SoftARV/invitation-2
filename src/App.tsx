@@ -242,8 +242,8 @@ function App() {
     });
   };
 
-  // Convert 2 PM - 5 PM EST (April 23, 2026) to Local Time
-  // ET is UTC-4 in April (EDT)
+  // April 26, 2026 — party starts 4 PM CEST (San Fernando, Cádiz — UTC+2)
+  // Cake & singing at 7 PM CEST — both displayed in the viewer's local timezone
   const startTime = new Date("2026-04-26T16:00:00+02:00");
 
   const formatOptions: Intl.DateTimeFormatOptions = {
@@ -253,6 +253,8 @@ function App() {
   };
 
   const localStart = startTime.toLocaleTimeString([], formatOptions);
+  const cakeTime = new Date("2026-04-26T19:00:00+02:00");
+  const localCake = cakeTime.toLocaleTimeString([], formatOptions);
 
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   const dayName   = cap(startTime.toLocaleDateString(undefined, { weekday: "long" }));
@@ -313,6 +315,10 @@ function App() {
                 </div>
                 <span className="date-time">{localStart}</span>
               </div>
+
+              <p className="cake-note">
+                🎂 {t("cake_note", { time: localCake })}
+              </p>
 
               <div className="location">
                 <p className="location-name">

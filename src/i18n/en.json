@@ -13,5 +13,6 @@
   "meet": "Join via Google Meet",
   "rsvp_confirmed": "Yay! RSVP Confirmed!",
   "rsvp_message": "Hi! I'm confirming my attendance to Mason's 2nd birthday party on April 26th 🤠🎉",
-  "local_time_suffix": "Local Time"
+  "local_time_suffix": "Local Time",
+  "cake_note": "Cake & singing at {{time}} your time"
 }
