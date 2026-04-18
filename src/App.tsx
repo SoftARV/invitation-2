@@ -257,9 +257,13 @@ function App() {
   const localCake = cakeTime.toLocaleTimeString([], formatOptions);
 
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-  const dayName   = cap(startTime.toLocaleDateString(undefined, { weekday: "long" }));
+  const dayName = cap(
+    startTime.toLocaleDateString(undefined, { weekday: "long" }),
+  );
   const dayNumber = startTime.toLocaleDateString(undefined, { day: "numeric" });
-  const monthName = cap(startTime.toLocaleDateString(undefined, { month: "long" }));
+  const monthName = cap(
+    startTime.toLocaleDateString(undefined, { month: "long" }),
+  );
 
   return (
     <div className="birthday-app">
@@ -289,7 +293,11 @@ function App() {
 
           <div className="card">
             <img src={afficheImg} alt="" className="card-bg" />
-            <img src={sheriffMasonImg} alt={t("subtitle")} className="card-title" />
+            <img
+              src={sheriffMasonImg}
+              alt={t("subtitle")}
+              className="card-title"
+            />
 
             <p className="message">
               {t("message")
@@ -325,9 +333,13 @@ function App() {
                   <span className="location-pin">📍</span>
                   {t("location_name")}
                 </p>
-                {t("location_address").split("\n").map((line, i) => (
-                  <p key={i} className="location-address">{line}</p>
-                ))}
+                {t("location_address")
+                  .split("\n")
+                  .map((line, i) => (
+                    <p key={i} className="location-address">
+                      {line}
+                    </p>
+                  ))}
               </div>
             </div>
 
@@ -392,7 +404,10 @@ function App() {
         {/* Toy Story characters peeking from the screen edges */}
         <div className="characters-layer">
           {CHARACTERS.map((char, i) => {
-            const charProgress = Math.max(0, Math.min(1, zoomProgress * 2.5 - char.delay));
+            const charProgress = Math.max(
+              0,
+              Math.min(1, zoomProgress * 2.5 - char.delay),
+            );
             return (
               <div
                 key={i}
