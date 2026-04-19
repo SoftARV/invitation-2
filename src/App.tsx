@@ -324,11 +324,10 @@ function App() {
                 <span className="date-time">{localStart}</span>
               </div>
 
-              <p className="cake-note">
-                🎂 {t("cake_note", { time: localCake })}
-              </p>
-
               <div className="location">
+                <p className="cake-note">
+                  🎂 {t("cake_note", { time: localCake })}
+                </p>
                 <p className="location-name">
                   <span className="location-pin">📍</span>
                   {t("location_name")}

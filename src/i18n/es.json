@@ -14,5 +14,5 @@
   "rsvp_confirmed": "¡Genial! ¡Asistencia confirmada!",
   "rsvp_message": "¡Hola! Confirmo mi asistencia al 2º cumpleaños de Mason el 26 de abril 🤠🎉",
   "local_time_suffix": "Hora Local",
-  "cake_note": "Pastel y canciones a las {{time}} tu hora"
+  "cake_note": "Hora del pastel {{time}}"
 }
